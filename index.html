@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Para ti ❤️</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- Letras abajo -->
+  <div class="lyricsBar" aria-hidden="true">
+    <div id="lyricsLine" class="lyricsLine"></div>
+  </div>
+
+  <main class="app">
+
+    <div id="lightLayer" class="lightLayer" aria-hidden="true"></div>
+
+    <!-- Música de fondo (se reproduce tras interacción del usuario) -->
+    <audio id="bgMusic" src="assets/music.mp3" preload="auto" loop></audio>
+
+    <!-- SFX del tap al mover pieza -->
+    <audio id="tapSfx" src="assets/tap.mp3" preload="auto"></audio>
+
+    <!-- ESCENA 1: REGALO -->
+    <section id="sceneGift" class="scene" aria-label="Intro regalo">
+      <div class="giftStage">
+        <div class="giftStage__hint">
+          <h1 class="title">Para ti ❤️</h1>
+          <p class="subtitle">Toca para abrirlo</p>
+        </div>
+
+        <div id="giftFX" class="giftFX" aria-hidden="true">
+          <div class="giftFX__flash"></div>
+          <div class="giftFX__glow"></div>
+          <div class="giftFX__sparks" id="sparks"></div>
+        </div>
+
+        <div id="giftTopDown" class="giftTopDown giftTopDown--full" role="button" tabindex="0" aria-label="Abrir regalo">
+          <div class="giftTopDown__lid">
+            <div class="giftTopDown__ribbonV"></div>
+            <div class="giftTopDown__ribbonH"></div>
+            <div class="giftTopDown__bow">
+              <span></span><span></span>
+            </div>
+          </div>
+
+          <div class="giftTopDown__box">
+            <div class="giftTopDown__ribbonV"></div>
+            <div class="giftTopDown__ribbonH"></div>
+          </div>
+
+          <div class="giftTopDown__inside">
+            <p class="insideText">Shhh…</p>
+            <p class="insideText2">Primero, desbloquea el inicio ✨</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESCENA 2: PUZZLE -->
+    <section id="scenePuzzle" class="scene" aria-label="Puzzle deslizante">
+      <div class="center">
+        <h2 class="title">Desbloquea el inicio</h2>
+        <p class="subtitle">
+          Ordena el puzzle para revelar la imagen.
+          <br />
+          <span class="tiny">(Una casilla vacía para mover piezas.)</span>
+        </p>
+
+        <div class="puzzleWrap">
+          <div id="puzzle" class="puzzle" aria-label="Puzzle 3x3"></div>
+
+          <div class="timerBar" aria-label="Temporizador">
+            <div class="timerTop">
+              <span>Tiempo</span>
+              <span id="timeText">40s</span>
+            </div>
+            <div class="timerTrack">
+              <div id="timeFill" class="timerFill"></div>
+            </div>
+          </div>
+
+          <div class="puzzleActions">
+            <button id="shuffleBtn" class="btn">Mezclar</button>
+            <button id="startBtn" class="btn btn--primary" disabled>Empezar</button>
+          </div>
+
+          <p id="status" class="status" aria-live="polite"></p>
+          <p id="openingLine" class="openingLine"></p>
+        </div>
+      </div>
+    </section>
+
+   <section id="sceneStart" class="scene" aria-label="Mapa del tesoro">
+      <div class="treasureMap">
+        <div class="treasureHeader">
+          <h2 class="title">Nuestro mapa ❤️</h2>
+          <p class="subtitle">Sigue la ruta. Solo puedes avanzar en orden.</p>
+        </div>
+
+        <div class="treasureCard">
+          <div class="treasureStage">
+            <div class="routeViewport" id="routeViewport">
+              <svg id="routeSvg" class="routeSvg" viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid meet">
+                <path id="routePath" d="M80,430 C180,350 240,470 330,390 C420,310 470,440 560,360 C650,280 700,420 790,330 C870,250 900,320 940,140"
+                      fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="10" stroke-linecap="round"/>
+                <path id="routeProgress" d="M80,430 C180,350 240,470 330,390 C420,310 470,440 560,360 C650,280 700,420 790,330 C870,250 900,320 940,140"
+                      fill="none" stroke="rgba(110,231,255,0.75)" stroke-width="10" stroke-linecap="round"/>
+                <g id="routeNodes"></g>
+              </svg>
+            </div>
+
+            <div class="treasureFooter">
+              <div id="treasureHint" class="mapHint"></div>
+              <button id="resetProgress" class="btn">Reiniciar ruta</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ✅ fin mapa -->
+
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
