@@ -1,0 +1,251 @@
+.bookStage{
+  height:100%;
+  display:grid;
+  place-items:center;
+  padding: 22px;
+}
+
+.bookWrap{
+  width: min(980px, 94vw);
+  border-radius: 28px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.bookGlow{
+  position:absolute;
+  inset:-40%;
+  background:
+    radial-gradient(900px 650px at 30% 25%, rgba(110,231,255,0.16), transparent 60%),
+    radial-gradient(900px 650px at 80% 35%, rgba(255,77,141,0.16), transparent 62%),
+    radial-gradient(800px 700px at 50% 90%, rgba(255,255,255,0.08), transparent 70%);
+  filter: blur(14px);
+  opacity: 0.9;
+  pointer-events:none;
+}
+
+.bookHeader{
+  position:relative;
+  padding: 22px 22px 8px;
+  text-align: left;
+  z-index:2;
+}
+
+.bookKicker{
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.68);
+}
+
+.bookTitle{
+  margin: 8px 0 6px;
+  font-size: clamp(22px, 3.4vw, 34px);
+  line-height: 1.08;
+}
+
+.bookMeta{
+  font-size: 13px;
+  color: rgba(255,255,255,0.72);
+}
+
+.bookPaper{
+  position: relative;
+  z-index:2;
+  margin: 10px 18px 0;
+  padding: 18px 18px 22px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.34)),
+    rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.diaryText{
+  font-size: clamp(14px, 2vw, 16px);
+  line-height: 1.75;
+  color: rgba(255,255,255,0.88);
+  font-family: ui-serif, Georgia, "Times New Roman", serif;
+}
+
+.diaryText p{
+  margin: 0 0 14px;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: diaryIn 520ms ease forwards;
+}
+
+@keyframes diaryIn{
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.diaryCursor{
+  display:inline-block;
+  margin-left: 2px;
+  opacity: 0.9;
+  animation: blink 0.9s steps(1) infinite;
+}
+@keyframes blink{
+  50% { opacity: 0.2; }
+}
+
+.bookFade{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height: 42px;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.35));
+  border-radius: 0 0 22px 22px;
+  pointer-events:none;
+}
+
+.bookFooter{
+  position:relative;
+  z-index:2;
+  display:flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 16px 18px 18px;
+  flex-wrap: wrap;
+}
+.lyricsBar{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.lyricsLine{
+  max-width: min(820px, 92vw);
+  margin: 0 auto;
+  padding: 6px 12px;
+  font-size: 14px;
+  text-align: center;
+  color: rgba(255,255,255,0.78);
+  background: rgba(0,0,0,0.25);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+
+.lyricsLine:empty{
+  opacity: 0;
+  transform: translateY(6px);
+}
+.scene2Intro{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
+
+.scene2Diary.hidden{
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scene2Diary{
+  opacity: 1;
+  transition: opacity 600ms ease;
+}
+
+/* =========================
+   RESPONSIVE ESCENA 2
+========================= */
+
+/* 1) En móvil, permitimos scroll vertical (si no, se corta) */
+html, body{
+    width: 100%;
+  overflow-x: hidden    /* ✅ evita el arrastre lateral */
+}
+body{
+  overflow-y: auto;           /* ✅ móvil: que pueda bajar */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 2) El stage centra pero deja respirar arriba/abajo */
+.bookStage{
+  min-height: 100svh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+/* 3) El "libro" adapta tamaño y evita que se salga */
+.bookWrap{
+  width: min(980px, 94vw);
+  border-radius: 22px;
+}
+
+/* 4) Papel y textos: menos padding en pantallas pequeñas */
+@media (max-width: 560px){
+  .bookHeader{
+    padding: 16px 16px 8px;
+  }
+
+  .bookPaper{
+    margin: 8px 12px 0;
+    padding: 14px 14px 18px;
+    border-radius: 18px;
+  }
+
+  .bookTitle{
+    font-size: 22px;
+    line-height: 1.1;
+  }
+
+  .diaryText{
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .bookFooter{
+    padding: 12px 12px 14px;
+    gap: 8px;
+    justify-content: stretch;
+  }
+
+  .bookFooter .btn{
+    width: 100%;              /* ✅ botones a una columna */
+  }
+}
+
+/* 5) En pantallas bajitas (móviles pequeños), limitamos el “papel” y hacemos scroll interno */
+@media (max-height: 700px){
+  .bookPaper{
+    max-height: 54vh;         /* ✅ no se come la pantalla */
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* 6) Barra de letra: evita que tape botones en móvil */
+.lyricsBar{
+  bottom: 8px;
+}
+@media (max-width: 560px){
+  .lyricsLine{
+    font-size: 13px;
+    padding: 6px 10px;
+    max-width: 94vw;
+  }
+}
+
+/* 7) Overlay "Comenzar": que no se descoloque */
+.scene2Intro{
+  padding: 18px;
+}
+@media (max-width: 560px){
+  .bookWrap{
+    width: 100%;
+  }
+}
