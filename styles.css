@@ -1,0 +1,756 @@
+/* =========================
+   VARIABLES Y BASE
+========================= */
+:root{
+  --bg: #0b0f1a;
+  --card: rgba(255,255,255,0.06);
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.70);
+  --accent: #ff4d8d;
+  --accent2: #6ee7ff;
+  --shadow: 0 18px 60px rgba(0,0,0,0.55);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:
+    radial-gradient(1200px 800px at 15% 20%, rgba(110,231,255,0.12), transparent 50%),
+    radial-gradient(1000px 700px at 85% 20%, rgba(255,77,141,0.14), transparent 55%),
+    radial-gradient(900px 700px at 50% 90%, rgba(255,255,255,0.06), transparent 60%),
+    var(--bg);
+
+  overflow: visible; /* ✅ importante */
+}
+
+.app{
+  height:100%;
+  width:100%;
+  overflow:hidden;  /* ✅ aquí mejor */
+  position:relative;
+  z-index:2;
+}
+
+/* =========================
+   ESCENAS
+========================= */
+.scene{
+  overflow: visible;
+  display:none;
+  width:100%;
+  height:100%;
+  padding:24px;
+}
+.scene--active{
+  display:block;
+}
+
+/* =========================
+   CENTRADO GENERAL
+========================= */
+.center{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  text-align:center;
+}
+
+/* =========================
+   TEXTOS
+========================= */
+.title{
+  margin:0;
+  font-size:clamp(28px, 4vw, 44px);
+}
+
+.subtitle{
+  margin:0;
+  color:var(--muted);
+  font-size:clamp(14px, 2.2vw, 18px);
+  line-height:1.4;
+}
+
+.tiny{
+  font-size:12px;
+  opacity:0.8;
+}
+
+.status{
+  margin-top:8px;
+  min-height:22px;
+  font-size:14px;
+  color:rgba(255,255,255,0.78);
+}
+
+.openingLine{
+  margin-top:6px;
+  font-size:15px;
+  color:rgba(255,255,255,0.9);
+}
+
+/* =========================
+   BOTONES
+========================= */
+.btn{
+  border:1px solid rgba(255,255,255,0.20);
+  background: rgba(255,255,255,0.08);
+  color:var(--text);
+  padding:12px 18px;
+  border-radius:14px;
+  cursor:pointer;
+  box-shadow: var(--shadow);
+  transition: transform .12s ease, background .12s ease, opacity .12s ease;
+}
+.btn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.12);
+}
+.btn:disabled{
+  opacity:0.45;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.btn--primary{
+  border-color: rgba(255,77,141,0.45);
+  background: linear-gradient(135deg, rgba(255,77,141,0.35), rgba(110,231,255,0.22));
+}
+
+/* =========================
+   ESCENA REGALO FULLSCREEN
+========================= */
+.giftStage{
+  width:100%;
+  height:100%;
+  position:relative;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+}
+
+.giftStage::before{
+  content:"";
+  position:absolute;
+  inset:-30%;
+  background:
+    radial-gradient(900px 700px at 50% 35%, rgba(255,255,255,0.08), transparent 60%),
+    radial-gradient(1200px 900px at 50% 90%, rgba(0,0,0,0.55), transparent 70%),
+    conic-gradient(from 220deg at 50% 50%, rgba(110,231,255,0.12), rgba(255,77,141,0.12), rgba(110,231,255,0.12));
+  opacity:0.9;
+}
+
+.giftStage__hint{
+  position:absolute;
+  top:6%;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  z-index:10;
+  pointer-events:none;
+}
+
+/* =========================
+   REGALO CENITAL GRANDE
+========================= */
+.giftTopDown--full{
+  width: min(92vmin, 980px);
+  height: min(92vmin, 980px);
+  position:relative;
+  cursor:pointer;
+  user-select:none;
+  outline:none;
+  z-index:5;
+  transform: perspective(1400px) rotateX(22deg) scale(1.06);
+  transition: transform 700ms cubic-bezier(.2,.9,.2,1);
+  filter: drop-shadow(0 40px 70px rgba(0,0,0,.68));
+}
+
+.giftTopDown--full:focus{
+  outline:2px solid rgba(110,231,255,0.6);
+  outline-offset:12px;
+  border-radius:32px;
+}
+
+/* Caja */
+.giftTopDown__box{
+  position:absolute;
+  inset:8%;
+  border-radius:34px;
+  background: linear-gradient(180deg, rgba(255,77,141,0.78), rgba(255,77,141,0.30));
+  border:1px solid rgba(255,255,255,0.16);
+}
+
+/* Tapa */
+.giftTopDown__lid{
+  position:absolute;
+  inset:6%;
+  border-radius:34px;
+  background: linear-gradient(180deg, rgba(110,231,255,0.60), rgba(110,231,255,0.22));
+  border:1px solid rgba(255,255,255,0.20);
+  transform-origin:50% 12%;
+  transition: transform 850ms cubic-bezier(.12,.95,.2,1), opacity 300ms ease;
+  z-index:7;
+}
+
+/* Cintas */
+.giftTopDown__ribbonV{
+  position:absolute;
+  left:50%;
+  top:0;
+  transform: translateX(-50%);
+  width:12%;
+  height:100%;
+  background: rgba(255,255,255,0.15);
+  border-left:1px solid rgba(255,255,255,0.16);
+  border-right:1px solid rgba(255,255,255,0.16);
+}
+.giftTopDown__ribbonH{
+  position:absolute;
+  top:50%;
+  left:0;
+  transform: translateY(-50%);
+  height:12%;
+  width:100%;
+  background: rgba(255,255,255,0.15);
+  border-top:1px solid rgba(255,255,255,0.16);
+  border-bottom:1px solid rgba(255,255,255,0.16);
+}
+
+/* Lazo */
+.giftTopDown__bow{
+  position:absolute;
+  left:50%;
+  top:12%;
+  transform: translateX(-50%);
+  display:flex;
+  gap:18px;
+  z-index:9;
+}
+.giftTopDown__bow span{
+  width:90px;
+  height:58px;
+  border-radius:18px 40px 40px 40px;
+  border:1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.16);
+  transform: rotate(16deg);
+}
+.giftTopDown__bow span:last-child{
+  border-radius:40px 18px 40px 40px;
+  transform: rotate(-16deg);
+}
+
+/* Interior */
+.giftTopDown__inside{
+  position:absolute;
+  inset:14%;
+  border-radius:26px;
+  background:
+    radial-gradient(380px 280px at 50% 35%, rgba(255,255,255,0.18), rgba(0,0,0,0.18)),
+    rgba(0,0,0,0.22);
+  border:1px solid rgba(255,255,255,0.10);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  opacity:0;
+  transform: scale(0.98);
+  transition: opacity 500ms ease, transform 500ms ease;
+  z-index:6;
+  padding:22px;
+  text-align:center;
+}
+
+.insideText{
+  margin:0;
+  font-size:22px;
+}
+.insideText2{
+  margin:0;
+  font-size:15px;
+  color:rgba(255,255,255,0.78);
+}
+
+/* Estado abierto */
+.giftTopDown--opened{
+  transform: perspective(1400px) rotateX(10deg) scale(1.12);
+}
+.giftTopDown--opened .giftTopDown__lid{
+  transform: translateY(-38%) rotateX(80deg) rotateZ(6deg);
+}
+.giftTopDown--opened .giftTopDown__inside{
+  opacity:1;
+  transform: scale(1);
+}
+
+/* =========================
+   FX REGALO
+========================= */
+.giftFX{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:8;
+  opacity:0;
+  transition: opacity 250ms ease;
+}
+
+.giftFX__flash{
+  position:absolute;
+  inset:-20%;
+  background: radial-gradient(700px 520px at 50% 50%, rgba(255,255,255,0.40), transparent 65%);
+  opacity:0;
+}
+
+.giftFX__glow{
+  position:absolute;
+  inset:-20%;
+  background: radial-gradient(900px 700px at 50% 58%, rgba(110,231,255,0.18), rgba(255,77,141,0.14), transparent 70%);
+  opacity:0;
+}
+
+.giftFX__sparks{
+  position:absolute;
+  inset:0;
+}
+
+/* =========================
+   PUZZLE
+========================= */
+.puzzleWrap{
+  margin-top:10px;
+  padding:18px 18px 14px;
+  border-radius:22px;
+  background: var(--card);
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow: var(--shadow);
+  width:min(420px, 92vw);
+}
+
+.puzzle{
+  width:min(360px, 82vw);
+  aspect-ratio:1/1;
+  margin:8px auto 14px;
+  position:relative;
+  --gap:10px;
+}
+
+.tile{
+  position:absolute;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.18);
+  background-color: rgba(255,255,255,0.08);
+  background-image: var(--img);
+  background-size:300% 300%;
+  background-position: var(--pos);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+  cursor:pointer;
+  transition: transform 160ms ease;
+  will-change: transform;
+}
+
+.tile--empty{
+  background: rgba(255,255,255,0.06);
+  border-style:dashed;
+  cursor:default;
+  box-shadow:none;
+}
+
+/* Número en esquina */
+.tileNum{
+  position:absolute;
+  right:8px;
+  bottom:8px;
+  font-size:12px;
+  padding:4px 7px;
+  border-radius:999px;
+  background: rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.92);
+  pointer-events:none;
+}
+
+/* =========================
+   TEMPORIZADOR
+========================= */
+.timerBar{
+  width:min(360px, 82vw);
+  margin:0 auto 12px;
+}
+
+.timerTop{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color: rgba(255,255,255,0.78);
+  margin-bottom:6px;
+}
+
+.timerTrack{
+  width:100%;
+  height:10px;
+  border-radius:999px;
+  background: rgba(255,255,255,0.10);
+  border:1px solid rgba(255,255,255,0.12);
+  overflow:hidden;
+}
+
+.timerFill{
+  height:100%;
+  width:100%;
+  border-radius:999px;
+  background: linear-gradient(90deg, rgba(110,231,255,0.55), rgba(255,77,141,0.55));
+  transform-origin:left center;
+  transform: scaleX(1);
+  transition: transform 200ms linear;
+}
+
+:root{
+  --pulse: 1;
+  --shiftX: 0px;
+  --shiftY: 0px;
+  --glow: 0.4;
+}
+
+:root{
+  --pulse: 1;
+  --shiftX: 0px;
+  --shiftY: 0px;
+  --glow: 0.35; /* 0..1.5 aprox */
+}
+
+.lightLayer{
+  position: fixed;
+  inset: -10%;              /* menos grande = más FPS */
+  pointer-events: none;
+  z-index: 1;
+
+  background:
+    radial-gradient(900px 700px at 20% 20%, rgba(110,231,255,0.22), transparent 60%),
+    radial-gradient(900px 700px at 80% 30%, rgba(255,77,141,0.22), transparent 62%),
+    radial-gradient(800px 700px at 50% 85%, rgba(255,255,255,0.10), transparent 70%);
+
+  /* CLAVE: solo transform (GPU-friendly) */
+  transform: translate3d(var(--shiftX), var(--shiftY), 0) scale(var(--pulse));
+  will-change: transform, opacity;
+
+  /* Blur fijo (no lo animamos) */
+  filter: blur(12px);
+
+  /* Glow con opacidad (sí la animamos) */
+  opacity: calc(0.55 + (var(--glow) * 0.22));
+
+  /* Esto suele ser caro; si te baja FPS, coméntalo */
+  /* mix-blend-mode: screen; */
+
+  transition: none;
+}
+.app{ position:relative; z-index:2; }
+.scene{ position:relative; z-index:3; }
+
+/* =========================
+   LETRA DISCRETA (BOTTOM)
+========================= */
+/* =========================
+   LETRA DISCRETA (BOTTOM)
+========================= */
+.lyricsBar{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+
+  z-index: 9999; /* 🔥 CLAVE */
+  pointer-events: none;
+  display:flex;
+  justify-content:center;
+}
+
+
+.lyricsLine{
+  max-width: min(820px, 92vw);
+  padding: 6px 12px;
+
+  font-size: clamp(13px, 1.8vw, 15px);
+  line-height: 1.4;
+  text-align: center;
+
+  color: rgba(255,255,255,0.78);
+  opacity: 0.85;
+
+  /* Muy sutil */
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.28),
+    rgba(0,0,0,0.12)
+  );
+  border-radius: 12px;
+
+  backdrop-filter: blur(6px);
+
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+/* Cuando no hay letra, que casi desaparezca */
+.lyricsLine:empty{
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* =========================
+   MAPA DEL TESORO (RUTA)
+========================= */
+.treasureMap{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+}
+
+.treasureHeader{
+  text-align:center;
+  padding:0 12px;
+}
+
+.treasureCard{
+  width:min(980px, 94vw);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.treasureStage{
+  width:100%;
+}
+
+.routeSvg{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius: 18px;
+  background:
+    radial-gradient(900px 520px at 40% 30%, rgba(255,255,255,0.06), transparent 60%),
+    radial-gradient(700px 520px at 80% 70%, rgba(255,77,141,0.08), transparent 60%),
+    rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+/* animación de dibujo del progreso */
+#routeProgress{
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 900ms cubic-bezier(.2,.9,.2,1);
+  filter: drop-shadow(0 0 14px rgba(110,231,255,0.25));
+}
+
+/* Nodos */
+.routeNode{
+  cursor:pointer;
+  transform-origin:center;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.routeNode:hover .nodeCircle{
+  stroke: rgba(255,255,255,0.55);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 10px rgba(110,231,255,0.30));
+}
+
+.nodeCircle{
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.45));
+}
+
+.nodeLabel{
+  font-size: 13px;
+  fill: rgba(255,255,255,0.92);
+  opacity: 0.9;
+  user-select:none;
+}
+
+.nodeSub{
+  font-size: 11px;
+  fill: rgba(255,255,255,0.70);
+  opacity: 0.9;
+  user-select:none;
+}
+
+/* estados */
+.routeNode--locked{ opacity: 0.30; cursor:not-allowed; }
+.routeNode--done{ opacity: 0.95; }
+.routeNode--active{ opacity: 1; }
+
+.treasureFooter{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-top: 12px;
+}
+/* Evita que el hover/click “salte” entre el círculo y los textos */
+.nodeLabel,
+.nodeSub{
+  pointer-events: none;
+}
+
+/* --- viewport del mapa --- */
+.routeViewport{
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+/* en desktop: normal */
+.routeSvg{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* en móvil: que no se encoja, que se pueda “desplazar” */
+@media (max-width: 680px){
+  .routeViewport{
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    border: 1px solid rgba(255,255,255,0.10);
+  }
+
+  /* clave: hacemos el SVG MÁS ANCHO que la pantalla */
+  .routeSvg{
+    width: 1200px;     /* puedes subir a 1400px si lo quieres más grande */
+    max-width: none;
+  }
+
+  /* pista visual suave: sombreado en los lados */
+  .routeViewport{
+    mask-image: linear-gradient(to right,
+      transparent 0,
+      black 6%,
+      black 94%,
+      transparent 100%);
+  }
+}
+/* =========================
+   ESCENA LIBRO / DIARIO
+========================= */
+.bookScene{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 24px;
+}
+
+.book{
+  width: min(940px, 94vw);
+  border-radius: 26px;
+  position: relative;
+  box-shadow: 0 30px 90px rgba(0,0,0,0.6);
+  overflow: hidden;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.book__edge{
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width: 18px;
+  background: linear-gradient(180deg, rgba(255,77,141,0.28), rgba(110,231,255,0.18));
+  opacity: 0.9;
+}
+
+.book__page{
+  padding: 26px 26px 22px 40px;
+  background:
+    radial-gradient(800px 520px at 30% 20%, rgba(255,255,255,0.08), transparent 60%),
+    radial-gradient(700px 520px at 80% 80%, rgba(110,231,255,0.07), transparent 60%),
+    rgba(0,0,0,0.20);
+  backdrop-filter: blur(10px);
+  border-radius: 26px;
+}
+
+.book__top{
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.book__tag{
+  align-self:flex-start;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(0,0,0,0.18);
+  color: rgba(255,255,255,0.82);
+}
+
+.book__title{
+  margin: 0;
+  font-size: clamp(26px, 3.6vw, 40px);
+  letter-spacing: 0.2px;
+}
+
+.book__date{
+  font-size: 13px;
+  color: rgba(255,255,255,0.68);
+}
+
+/* Texto estilo diario */
+.diaryText{
+  min-height: 220px;
+  max-height: 52vh;
+  overflow:auto;
+  padding-right: 6px;
+  font-size: clamp(15px, 2.1vw, 18px);
+  line-height: 1.7;
+  color: rgba(255,255,255,0.88);
+  text-align: left;
+}
+
+.diaryText p{
+  margin: 0 0 14px;
+}
+
+/* Pequeño “cursor” parpadeando mientras escribe */
+.diaryCursor{
+  display:inline-block;
+  width: 10px;
+  opacity: 0.7;
+  animation: blink 1s infinite;
+  transform: translateY(1px);
+}
+@keyframes blink{
+  0%, 40% { opacity: 0.1; }
+  50%, 100% { opacity: 0.8; }
+}
+
+.book__actions{
+  display:flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* En móvil: más aire y mejor lectura */
+@media (max-width: 520px){
+  .book__page{ padding: 22px 18px 18px 28px; }
+  .diaryText{ max-height: 56vh; }
+}
+
