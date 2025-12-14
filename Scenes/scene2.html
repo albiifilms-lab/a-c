@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Escena 2 — El inicio</title>
+
+  <!-- Estilos globales (botones, colores, fondo) -->
+  <link rel="stylesheet" href="../styles.css" />
+  <!-- Estilos SOLO del libro -->
+  <link rel="stylesheet" href="./scene2.css" />
+</head>
+
+<body>
+  <main class="app">
+
+    <!-- Letras abajo (opcional; si no quieres aquí, bórralo) -->
+    <div class="lyricsBar" aria-hidden="true">
+      <div id="lyricsLine" class="lyricsLine"></div>
+    </div>
+
+    <!-- Música propia de escena 2 -->
+    <audio id="bgMusic" src="../assets/music2.mp3" preload="auto" loop></audio>
+
+    <div id="scene2Intro" class="scene2Intro">
+  <button id="btnStartDiary" class="btn btn--primary">
+    Comenzar
+  </button>
+</div>
+<section id="scene2Diary" class="scene scene--active scene2Diary hidden" aria-label="Escena 2 - Diario">
+    <section class="scene scene--active" aria-label="Escena 2 - Diario">
+      <div class="bookStage">
+
+        <div class="bookWrap" role="article" aria-label="Página de diario">
+          <div class="bookGlow" aria-hidden="true"></div>
+
+          <header class="bookHeader">
+            <div class="bookKicker">EL INICIO</div>
+            <h2 class="bookTitle">Un sí que lo cambió todo</h2>
+            <div class="bookMeta">14 de octubre — casi las 5</div>
+          </header>
+
+          <div class="bookPaper">
+            <div id="diaryText2" class="diaryText"></div>
+            <div class="bookFade" aria-hidden="true"></div>
+          </div>
+
+          <footer class="bookFooter">
+            <button id="btnFinish2" class="btn btn--primary" disabled>
+              Continuar ➜
+            </button>
+            <button class="btn" onclick="window.location.href='../index.html#map'">
+              Volver al mapa
+            </button>
+          </footer>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JS SOLO de escena 2 -->
+  <script src="./scene2.js"></script>
+</body>
+</html>
